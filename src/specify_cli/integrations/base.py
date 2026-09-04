@@ -49,6 +49,7 @@ _CORE_COMMAND_TEMPLATE_ORDER = (
     "converge",
     "plan",
     "checklist",
+    "quick",
     "specify",
     "tasks",
     "taskstoissues",

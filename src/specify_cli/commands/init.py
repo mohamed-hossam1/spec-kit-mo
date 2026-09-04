@@ -962,9 +962,11 @@ def register(app: typer.Typer) -> None:
                     if any_extension_installed:
                         _refresh_events_and_warn(project_path)
 
+                # Seed the constitution AFTER preset installation so that a
                 # Seed the memory pillars (constitution, context, rules) AFTER preset installation so that a
                 # preset-provided constitution-template (resolved via the
                 # priority stack) wins over the core template.
+                ensure_constitution_from_template(project_path, tracker=tracker)
                 ensure_memory_pillars_from_template(project_path, tracker=tracker)
 
                 tracker.complete("final", "project ready")
@@ -1168,6 +1170,15 @@ def register(app: typer.Typer) -> None:
         )
         steps_lines.append(
             f"   {step_num}.6 [cyan]{_display_cmd('converge')}[/] - Assess the codebase and append remaining work as tasks"
+        )
+        steps_lines.append(
+            ""
+        )
+        steps_lines.append(
+            f"   [bold yellow]⚡ Fast-Track (Simple Features):[/bold yellow]"
+        )
+        steps_lines.append(
+            f"   ○ [cyan]{_display_cmd('quick')}[/] - Synthesize spec + plan in one shot (then run [cyan]{_display_cmd('tasks')}[/] → [cyan]{_display_cmd('implement')}[/])"
         )
 
         steps_panel = Panel(
