@@ -1,12 +1,20 @@
 <div align="center">
     <img src="https://raw.githubusercontent.com/github/spec-kit/main/media/logo_large.webp" alt="Spec Kit Logo" width="200" height="200"/>
-    <h1>🌱 Spec Kit</h1>
-    <h3><em>Define what to build before building it — with any AI coding agent.</em></h3>
+    <h1>🚀 Spec Kit Mo (`specifymo`)</h1>
+    <h3><em>The Autonomous, Deep Spec-Driven Development Toolkit for AI Pair Programming</em></h3>
 </div>
 
 <p align="center">
-    <strong>An open source toolkit for building high-quality software with any AI coding agent — a ready-to-use spec-driven process (or bring your own), endlessly extensible, community-driven, and built for your whole organization.</strong>
+    <strong>Enhanced with Living State (picture.md), Dynamic Clarification Trees, The Iron Law of TDD & Mutation Testing, Testing Seams, and Two-Axis Convergence Quality Audits.</strong>
 </p>
+
+```bash
+# Install Spec Kit Mo
+uv tool install specifymo-cli --from git+https://github.com/mohamed-hossam1/spec-kit-mo.git
+
+# Initialize anywhere
+specifymo init
+```
 
 <p align="center">
     <a href="https://github.com/github/spec-kit/releases/latest"><img src="https://img.shields.io/github/v/release/github/spec-kit" alt="Latest Release"/></a>

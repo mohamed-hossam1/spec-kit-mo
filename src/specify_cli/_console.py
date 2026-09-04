@@ -33,7 +33,7 @@ BANNER = """
 ╚══════╝╚═╝     ╚══════╝ ╚═════╝╚═╝╚═╝        ╚═╝
 """
 
-TAGLINE = "GitHub Spec Kit - Spec-Driven Development Toolkit"
+TAGLINE = "Spec Kit Mo (specifymo) - Spec-Driven Development Toolkit"
 
 console = Console(highlight=False)
 

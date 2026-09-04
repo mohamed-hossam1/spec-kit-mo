@@ -1,11 +1,18 @@
 ---
 
 description: "Task list template for feature implementation"
+description: "Task list template for feature implementation with mandatory TDD and vertical slices"
 ---
 
 # Tasks: [FEATURE NAME]
+# Tasks: [FEATURE_NAME]
 
 **Input**: Design documents from `/specs/[###-feature-name]/`
+**Feature Branch**: `[###-feature-name]`
+**Spec Reference**: `specs/[FEATURE_DIR]/spec.md`
+**Plan Reference**: `specs/[FEATURE_DIR]/plan.md`
+**Living State**: `specs/[FEATURE_DIR]/picture.md`
+**Primary Testing Seam**: `[SEAM_PATH]`
 
 **Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
 
@@ -30,7 +37,7 @@ description: "Task list template for feature implementation"
   ============================================================================
   IMPORTANT: The tasks below are SAMPLE TASKS for illustration purposes only.
 
-  The __SPECKIT_COMMAND_TASKS__ command MUST replace these with actual tasks based on:
+  The /speckit-tasks command MUST replace these with actual tasks based on:
   - User stories from spec.md (with their priorities P1, P2, P3...)
   - Feature requirements from plan.md
   - Entities from data-model.md
@@ -56,10 +63,21 @@ description: "Task list template for feature implementation"
 ---
 
 ## Phase 2: Foundational (Blocking Prerequisites)
+## Task Standards & Format
 
 **Purpose**: Core infrastructure that MUST be complete before ANY user story can be implemented
+Every task follows the format:
+```text
+- [ ] [ID] [P?] [Story?] [Kind] Description with exact/relative/file/paths.ext
+```
+- **[ID]**: Sequential identifier (`T001`, `T002`...)
+- **[P]**: Parallelizable (touches independent files, no unfinished dependencies)
+- **[Story]**: User Story link (e.g. `[US1]`, `[US2]`)
+- **[Kind]**: `[Pre-factor]`, `[Migration]`, `[TDD-Red]`, `[Impl]`, `[TDD-Green]`, `[Mutation]`, `[Polish]`
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
+> **THE IRON LAW OF TDD (NON-NEGOTIABLE)**:
+> Tests are NEVER optional. Within each User Story, the failing seam test (`[TDD-Red]`) MUST be written and proven to fail BEFORE writing any production implementation code (`[Impl]`).
 
 Examples of foundational tasks (adjust based on your project):
 
@@ -75,10 +93,14 @@ Examples of foundational tasks (adjust based on your project):
 ---
 
 ## Phase 3: User Story 1 - [Title] (Priority: P1) 🎯 MVP
+## Phase 1: Pre-factoring & Structural Preparation (If scheduled in plan.md)
 
 **Goal**: [Brief description of what this story delivers]
+**Goal**: Prepare and clean existing codebase structures so adding the new feature does not degrade architecture ("Make the change easy, then make the easy change").
 
 **Independent Test**: [How to verify this story works on its own]
+- [ ] T001 [Pre-factor] [Description of cleanup / helper extraction in existing files]
+- [ ] T002 [Pre-factor] Run existing test suite to verify baseline regression safety (Must stay 100% green)
 
 ### Tests for User Story 1 (OPTIONAL - only if tests requested) ⚠️
 
@@ -101,10 +123,15 @@ Examples of foundational tasks (adjust based on your project):
 ---
 
 ## Phase 4: User Story 2 - [Title] (Priority: P2)
+## Phase 2: Foundational Data & Contracts Layer
 
 **Goal**: [Brief description of what this story delivers]
+**Goal**: Establish migrations, schemas, and shared types that block all subsequent user stories.
 
 **Independent Test**: [How to verify this story works on its own]
+- [ ] T003 [P] [Migration] Apply schema changes and migrations per `data-model.md` in [exact migration path]
+- [ ] T004 [P] [Contracts] Define DTOs, interfaces, or payload schemas per `contracts/` in [exact types path]
+- [ ] T005 [P] Setup or verify mock factories/fixtures needed for testing seam
 
 ### Tests for User Story 2 (OPTIONAL - only if tests requested) ⚠️
 
@@ -123,17 +150,32 @@ Examples of foundational tasks (adjust based on your project):
 ---
 
 ## Phase 5: User Story 3 - [Title] (Priority: P3)
+## Phase 3: User Story 1 - [Title] (Priority: P1 - Core MVP) 🎯 Tracer Bullet
 
 **Goal**: [Brief description of what this story delivers]
+**Goal**: [Deliver end-to-end working MVP path via the primary testing seam]
+**Testing Seam**: `[Exact route, CLI command, or queue topic]`
 
 **Independent Test**: [How to verify this story works on its own]
+### 1. The Red Stage (Failing Seam Test)
+- [ ] T006 [TDD-Red] [US1] Write integration/contract test exercising primary seam for US1 in [tests/seam-test-path]
+- [ ] T007 [US1] Run test and verify it FAILS cleanly with expected missing implementation / 404 / 501 assertion
 
 ### Tests for User Story 3 (OPTIONAL - only if tests requested) ⚠️
+### 2. The Green Stage (Minimal Implementation)
+- [ ] T008 [P] [US1] [Impl] Implement domain model / state transitions in [src/models/...]
+- [ ] T009 [US1] [Impl] Implement service logic and validation rules in [src/services/...]
+- [ ] T010 [US1] [Impl] Connect primary testing seam controller/handler in [src/controllers/...]
+- [ ] T011 [TDD-Green] [US1] Run seam test from T006 and verify it turns 100% GREEN (Pass)
 
 - [ ] T024 [P] [US3] Contract test for [endpoint] in tests/contract/test_[name].py
 - [ ] T025 [P] [US3] Integration test for [user journey] in tests/integration/test_[name].py
+### 3. Mutation & Refactor Stage
+- [ ] T012 [Mutation] [US1] Revert minimal logic or assert boundary condition to prove test detects breakage (Mutation proof)
+- [ ] T013 [Refactor] [US1] Clean up code, remove duplicate logic, format per project rules
 
 ### Implementation for User Story 3
+**Checkpoint**: User Story 1 is now a fully functional, tested, and deployable standalone vertical slice (MVP).
 
 - [ ] T026 [P] [US3] Create [Entity] model in src/models/[entity].py
 - [ ] T027 [US3] Implement [Service] in src/services/[service].py
@@ -144,12 +186,21 @@ Examples of foundational tasks (adjust based on your project):
 ---
 
 [Add more user story phases as needed, following the same pattern]
+## Phase 4: User Story 2 - [Title] (Priority: P2 - Edge Cases & Validations)
 
 ---
+**Goal**: [Boundary conditions, error cases, and alternate flows]
+**Testing Seam**: `[Exact route or seam handler]`
 
 ## Phase N: Polish & Cross-Cutting Concerns
+### 1. The Red Stage
+- [ ] T014 [TDD-Red] [US2] Add negative / boundary test cases to [tests/seam-test-path]
+- [ ] T015 [US2] Verify new edge tests FAIL as expected
 
 **Purpose**: Improvements that affect multiple user stories
+### 2. The Green Stage
+- [ ] T016 [US2] [Impl] Add validation, error handling, and state guards in [src/services/...]
+- [ ] T017 [TDD-Green] [US2] Run tests and verify all edge scenarios turn 100% GREEN
 
 - [ ] TXXX [P] Documentation updates in docs/
 - [ ] TXXX Code cleanup and refactoring
@@ -161,8 +212,13 @@ Examples of foundational tasks (adjust based on your project):
 ---
 
 ## Dependencies & Execution Order
+## Phase 5: User Story 3 - [Title] (Priority: P3 - Polish / Optional)
 
 ### Phase Dependencies
+**Goal**: [Secondary enhancements or non-blocking features]
+- [ ] T018 [TDD-Red] [US3] Write seam test for secondary enhancement
+- [ ] T019 [US3] [Impl] Implement enhancement
+- [ ] T020 [TDD-Green] [US3] Verify tests pass
 
 - **Setup (Phase 1)**: No dependencies - can start immediately
 - **Foundational (Phase 2)**: Depends on Setup completion - BLOCKS all user stories
@@ -197,20 +253,27 @@ Examples of foundational tasks (adjust based on your project):
 ---
 
 ## Parallel Example: User Story 1
+## Phase N: Polish, Observability & Convergence Readiness
 
 ```bash
 # Launch all tests for User Story 1 together (if tests requested):
 Task: "Contract test for [endpoint] in tests/contract/test_[name].py"
 Task: "Integration test for [user journey] in tests/integration/test_[name].py"
+**Goal**: Production hardening, performance checks, and cleanup across the entire feature.
 
 # Launch all models for User Story 1 together:
 Task: "Create [Entity1] model in src/models/[entity1].py"
 Task: "Create [Entity2] model in src/models/[entity2].py"
 ```
+- [ ] T021 [P] [Polish] Add structured logging and error metrics per constitution
+- [ ] T022 [Polish] Run complete regression test suite across the repository
+- [ ] T023 [Polish] Run quickstart validation flow per `quickstart.md`
+- [ ] T024 [Polish] Clean git status, verify no stray files or untracked artifacts
 
 ---
 
 ## Implementation Strategy
+## Dependencies & Execution Order
 
 ### MVP First (User Story 1 Only)
 
@@ -250,3 +313,8 @@ With multiple developers:
 - Commit after each task or logical group
 - Stop at any checkpoint to validate story independently
 - Avoid: vague tasks, same file conflicts, cross-story dependencies that break independence
+1. **Phase 1 (Pre-factoring)** $\to$ Must complete before any new feature code is written.
+2. **Phase 2 (Data Layer)** $\to$ Blocks all user story work.
+3. **Phase 3 (User Story 1 - P1)** $\to$ Can start immediately after Phase 2. Delivers working MVP.
+4. **Phase 4 (User Story 2 - P2)** $\to$ Builds on P1 foundation.
+5. **Phase N (Polish)** $\to$ Final gate before review and merge.

@@ -252,6 +252,43 @@ def ensure_constitution_from_template(
             )
 
 
+def ensure_memory_pillars_from_template(
+    project_path: Path, tracker: StepTracker | None = None
+) -> None:
+    """Ensure the triple memory pillars (constitution, context, rules) are seeded from templates."""
+    ensure_constitution_from_template(project_path, tracker=tracker)
+
+    templates_dir = project_path / ".specify" / "templates"
+    memory_dir = project_path / ".specify" / "memory"
+
+    memory_context = memory_dir / "CONTEXT.md"
+    if not memory_context.exists():
+        src_context = templates_dir / "context-template.md"
+        if src_context.exists():
+            try:
+                memory_context.parent.mkdir(parents=True, exist_ok=True)
+                memory_context.write_bytes(src_context.read_bytes())
+                if tracker:
+                    tracker.add("context", "Domain context setup")
+                    tracker.complete("context", "copied from template")
+            except Exception:
+                pass
+
+    rules_dir = memory_dir / "rules"
+    rules_index = rules_dir / "_index.md"
+    if not rules_index.exists():
+        src_rules = templates_dir / "rules-index-template.md"
+        if src_rules.exists():
+            try:
+                rules_dir.mkdir(parents=True, exist_ok=True)
+                rules_index.write_bytes(src_rules.read_bytes())
+                if tracker:
+                    tracker.add("rules", "Situational rules index setup")
+                    tracker.complete("rules", "copied from template")
+            except Exception:
+                pass
+
+
 def register(app: typer.Typer) -> None:
     @app.command()
     def init(
@@ -925,10 +962,10 @@ def register(app: typer.Typer) -> None:
                     if any_extension_installed:
                         _refresh_events_and_warn(project_path)
 
-                # Seed the constitution AFTER preset installation so that a
+                # Seed the memory pillars (constitution, context, rules) AFTER preset installation so that a
                 # preset-provided constitution-template (resolved via the
                 # priority stack) wins over the core template.
-                ensure_constitution_from_template(project_path, tracker=tracker)
+                ensure_memory_pillars_from_template(project_path, tracker=tracker)
 
                 tracker.complete("final", "project ready")
             except (typer.Exit, SystemExit):

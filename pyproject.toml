@@ -1,7 +1,7 @@
 [project]
-name = "specify-cli"
+name = "specifymo-cli"
 version = "1.0.5.dev0"
-description = "Specify CLI, part of GitHub Spec Kit. A tool to bootstrap your projects for Spec-Driven Development (SDD)."
+description = "SpecifyMo CLI, customized Spec Kit. A tool to bootstrap your projects for Spec-Driven Development (SDD)."
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
@@ -17,6 +17,7 @@ dependencies = [
 ]
 
 [project.scripts]
+specifymo = "specify_cli:main"
 specify = "specify_cli:main"
 
 [build-system]
@@ -27,11 +28,15 @@ build-backend = "hatchling.build"
 packages = ["src/specify_cli"]
 
 [tool.hatch.build.targets.wheel.force-include]
-# Bundle core assets so `specify init` works without network access (air-gapped / enterprise)
+# Bundle core assets so `specifymo init` works without network access (air-gapped / enterprise)
 # Page templates (exclude commands/ — bundled separately below to avoid duplication)
+"templates/adr-template.md" = "specify_cli/core_pack/templates/adr-template.md"
 "templates/checklist-template.md" = "specify_cli/core_pack/templates/checklist-template.md"
 "templates/constitution-template.md" = "specify_cli/core_pack/templates/constitution-template.md"
+"templates/context-template.md" = "specify_cli/core_pack/templates/context-template.md"
+"templates/picture-template.md" = "specify_cli/core_pack/templates/picture-template.md"
 "templates/plan-template.md" = "specify_cli/core_pack/templates/plan-template.md"
+"templates/rules-index-template.md" = "specify_cli/core_pack/templates/rules-index-template.md"
 "templates/spec-template.md" = "specify_cli/core_pack/templates/spec-template.md"
 "templates/tasks-template.md" = "specify_cli/core_pack/templates/tasks-template.md"
 "templates/vscode-settings.json" = "specify_cli/core_pack/templates/vscode-settings.json"
