@@ -45,6 +45,14 @@
 
 规范驱动开发（Spec-Driven Development）**颠覆了**传统软件开发的思路。几十年来，代码一直是核心 —— 规范只是编码这项"正事"开始前搭起、随后就被丢弃的脚手架。规范驱动开发改变了这一点：**规范本身变得可执行**，它不再只是引导实现，而是直接生成可运行的实现。
 
+<p align="center">
+  <a href="https://excalidraw.com/#json=l8i5yoMunszBn4CgQykAH,XT0uZq5qeFeiD4lkqkV16w">
+    <img src="./media/spec-flow.png" alt="Spec Kit Mo 工作流图" width="100%"/>
+  </a>
+  <br>
+  <em>图：Spec Kit Mo 工作流生命周期与各阶段生成的工件。<a href="https://excalidraw.com/#json=l8i5yoMunszBn4CgQykAH,XT0uZq5qeFeiD4lkqkV16w">点击在 Excalidraw 中打开与编辑</a>。</em>
+</p>
+
 ## ⚡ 快速开始
 
 ### 1. 安装 Specify CLI

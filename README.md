@@ -69,6 +69,14 @@ specifymo init
 
 Spec-Driven Development **flips the script** on traditional software development. For decades, code has been king — specifications were just scaffolding we built and discarded once the "real work" of coding began. Spec-Driven Development changes this: **specifications become executable**, directly generating working implementations rather than just guiding them.
 
+<p align="center">
+  <a href="https://excalidraw.com/#json=l8i5yoMunszBn4CgQykAH,XT0uZq5qeFeiD4lkqkV16w">
+    <img src="./media/spec-flow.png" alt="Spec Kit Mo Workflow Diagram" width="100%"/>
+  </a>
+  <br>
+  <em>Figure: Spec Kit Mo workflow lifecycle and generated artifacts across each phase. <a href="https://excalidraw.com/#json=l8i5yoMunszBn4CgQykAH,XT0uZq5qeFeiD4lkqkV16w">Click to open & edit on Excalidraw</a>.</em>
+</p>
+
 ### SDD Quickstart
 
 Replace `vX.Y.Z` with the [latest release tag](https://github.com/github/spec-kit/releases), keeping the leading `v`.
@@ -87,9 +95,15 @@ Launch your coding agent in the project directory, then:
 3. **Break down** the plan into actionable tasks (`/speckit-tasks`).
 4. **Implement** the tasks (`/speckit-implement`).
 5. **Converge** the implementation against the spec, plan, and tasks (`/speckit-converge`).
+2. **Clarify** decisions and edge cases (`/speckit-clarify`).
+3. **Plan** how you will build it (`/speckit-plan`).
+4. **Break down** the plan into actionable tasks (`/speckit-tasks`).
+5. **Implement** the tasks (`/speckit-implement`).
+6. **Converge** the implementation against the spec, plan, and tasks (`/speckit-converge`).
 
 > [!NOTE]
 > Repeat steps 4 and 5 until `/speckit-converge` reports **Converged**.
+> Repeat steps 5 and 6 until `/speckit-converge` reports **Converged**.
 
 ## 🐞 Bug Fixing with Spec Kit
 
